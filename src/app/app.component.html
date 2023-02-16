@@ -1,36 +1,32 @@
 <section class="content">
-    <h1 class="animated bounceIn">{{ title }}</h1>
+    <h1 class="animated bounceIn title">{{ title }}</h1>
 
     <div class="tasks" *ngIf="mode=='list'">
         <ul class="animated bounceIn">
             <p *ngIf="todos.length == 0"><small>Não há tarefas cadastradas</small></p>
-            <li *ngFor="let todo of todos">
+            <li [ngClass]="todo.done === true ? 'done' : 'pending'" *ngFor="let todo of todos">
                 <div class="task-title">
                     <h3>{{todo.id}}. {{todo.title}}</h3>
                 </div>
                 <div class="buttons">
-                    <button id="finish-button" (click)="markAsDone(todo)" *ngIf="!todo.done">Concluir</button>
-                    <button id="remake-button" (click)="markAsUndone(todo)" *ngIf="todo.done">Refazer</button>
-                    <button id="remove-button" (click)="remove(todo)">Remover</button>
+                    <button id="finish-button" (click)="markAsDone(todo)" *ngIf="!todo.done"><i class="far fa-check-circle"></i></button>
+                    <button id="remake-button" (click)="markAsUndone(todo)" *ngIf="todo.done"><i class="fas fa-check-circle"></i></button>
+                    <button id="remove-button" (click)="remove(todo)"><i class="far fa-trash-alt"></i></button>
                 </div>
-                <div class="status">
-                    <h4 id="status">Status: </h4>
-                    <span id="pending-task" *ngIf="!todo.done">Pendente</span>
-                    <span id="done-task" *ngIf="todo.done">Concluído</span>
-                </div>
-                
             </li>
         </ul>
     </div>
 
     <div class="form" *ngIf="mode=='add'">
+        <h1 class="text-center">Nova Tarefa</h1>
         <form [formGroup]="form">
-            <fieldset>
-                <label for="">Tarefa</label>
-                <input type="text" placeholder="Titulo da tarefa" maxlength="60" formControlName="title">
-                <small *ngIf="form.controls['title'].invalid && !form.controls['title'].pristine">Esse campo deve conter entre 3 a 60 caracteres</small>
-                <button [disabled]="form.invalid" (click)="add()">Salvar</button>
-            </fieldset>
+            <input type="text" placeholder="Titulo da tarefa" maxlength="60" formControlName="title">
+            <small class="danger" *ngIf="form.controls['title'].invalid && !form.controls['title'].pristine">
+                Esse campo deve conter entre 3 a 60 caracteres<br>
+            </small>
+            <p class="text-center save-paragraph">
+                <button [disabled]="form.invalid" (click)="add()"><i class="far fa-save"></i> Salvar</button>
+            </p>
         </form>
     </div>
 

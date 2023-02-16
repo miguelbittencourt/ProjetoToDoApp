@@ -23,6 +23,8 @@ export class AppComponent {
       ])]
     });
     this.load();
+
+    let task = document.getElementById('task-item');
   }
 
   changeMode(mode: String) {
@@ -62,6 +64,7 @@ export class AppComponent {
   save() {
     const data = JSON.stringify(this.todos);
     localStorage.setItem('todos', data);
+    this.mode = 'list';
   }
 
   load() {
